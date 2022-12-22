@@ -66,7 +66,34 @@ if ((_mode isEqualTo "encrypt") || (_mode isEqualTo "decrypt")) then
             }; 
         };
         case "OTP": {
-            //stub
+            _message="abcdefghijklmnopqrstwxyz";
+            _key=   "qwertyuiopasdfghjklzxcbnm";
+            _mode = "encrypt";
+            //todo, put this in function
+            _msgLength = count _message;
+            if (_msgLength <= count _key) then {    
+                if (_mode isEqualTo "encrypt")then{
+                            
+                    _keyCodes = toArray(_key);
+                    _msgCodes = toArray(_message);
+                    private _processedChar;
+                    private _processedMessage=[];
+                    for "_i" from 0 to _msgLength-1 step 1 do{
+                        _processedChar = [(_msgCodes#_i),(_keyCodes#_i)] call BIS_fnc_bitwiseXOR;
+                        _processedChar = _processedChar+32;    
+                        _processedMessage pushBack _processedChar;
+                        systemChat str(_processedChar);
+                    };
+                    
+                    _processedMessage=toString(_processedMessage);
+                    //[_computer, _processedMessage] call AE3_armaos_fnc_shell_stdout;
+                    copyToClipboard (_processedMessage);
+                    
+                };
+                if (_mode isEqualTo "decrypt")then{
+                    
+                };
+            }else{systemChat "key too short"};
         };
         case "SHA-2": {
             //stub
