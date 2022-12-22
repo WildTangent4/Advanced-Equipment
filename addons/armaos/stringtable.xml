@@ -2,6 +2,13 @@
 <Project name="AE3">
     <Package name="ArmaOS">
         <Container name="Exceptions">
+            <key id="STR_AE3_ArmaOS_Exception_OTPNeedsKeyLongerThanPlainText">
+                <Original>OTP needs key longer than plaintext.</Original>
+                <English>OTP needs key longer than plaintext.</English>
+                <German>OTP braucht Schlüssel länger als Klartext.</German>
+                <Chinesesimp>一次一密需要比明文更长的密钥。</Chinesesimp>
+                <Russian>OTP требует, чтобы ключ был длиннее открытого текста.</Russian>
+            </Key>
             <Key ID="STR_AE3_ArmaOS_Exception_LinkAlreadyExists">
                 <Original>Link already exists!</Original>
                 <English>Link already exists!</English>
