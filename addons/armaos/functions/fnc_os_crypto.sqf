@@ -29,7 +29,7 @@ private _message = "";
     if (_x isEqualTo "-m") then { _mode = _options select (_forEachIndex + 1); _options set [_forEachIndex, ""]; _options set [_forEachIndex + 1, ""]; };
 } forEach _options;
 
-private _allowedAlgorythms = ["caesar"];
+private _allowedAlgorythms = ["caesar","OTP","SHA-2"];
 private _allowedModes = ["encrypt", "decrypt"];
 
 if (!(_algorythm in _allowedAlgorythms)) exitWith { [ _computer, format [localize "STR_AE3_ArmaOS_Exception_CommandHasMissingAlgorythm", _commandName] ] call AE3_armaos_fnc_shell_stdout; };
@@ -49,20 +49,27 @@ private _encryptedMessage = "";
 if ((_mode isEqualTo "encrypt") || (_mode isEqualTo "decrypt")) then
 {
     // select algorythm
-    if (_algorythm == "caesar") then
-    {
-        // no float
-        _key = floor (parseNumber _key);
+    switch (_algorythm) do {
+        case "caesar": {
+            // no float
+            _key = floor (parseNumber _key);
 
-        if (_key > 0) then
-        { 
-            private _processedMessage = [_key, _mode, _message] call AE3_armaos_fnc_encryption_caesar;
+            if (_key > 0) then
+            { 
+                private _processedMessage = [_key, _mode, _message] call AE3_armaos_fnc_encryption_caesar;
 
-            [_computer, _processedMessage] call AE3_armaos_fnc_shell_stdout;
-        }
-        else
-        {
-            [_computer, localize "STR_AE3_ArmaOS_Exception_CaesarCypherNeedsIntegerGreaterNullAsKey"] call AE3_armaos_fnc_shell_stdout;
+                [_computer, _processedMessage] call AE3_armaos_fnc_shell_stdout;
+            }
+            else
+            {
+                [_computer, localize "STR_AE3_ArmaOS_Exception_CaesarCypherNeedsIntegerGreaterNullAsKey"] call AE3_armaos_fnc_shell_stdout;
+            }; 
+        };
+        case "OTP": {
+            //stub
+        };
+        case "SHA-2": {
+            //stub
         };
     };
 };
