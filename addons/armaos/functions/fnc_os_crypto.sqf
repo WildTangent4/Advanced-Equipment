@@ -29,7 +29,7 @@ private _message = "";
     if (_x isEqualTo "-m") then { _mode = _options select (_forEachIndex + 1); _options set [_forEachIndex, ""]; _options set [_forEachIndex + 1, ""]; };
 } forEach _options;
 
-private _allowedAlgorythms = ["caesar","OTP","SHA-2"];
+private _allowedAlgorythms = ["caesar","OTP"];
 private _allowedModes = ["encrypt", "decrypt"];
 
 if (!(_algorythm in _allowedAlgorythms)) exitWith { [ _computer, format [localize "STR_AE3_ArmaOS_Exception_CommandHasMissingAlgorythm", _commandName] ] call AE3_armaos_fnc_shell_stdout; };
@@ -70,30 +70,12 @@ if ((_mode isEqualTo "encrypt") || (_mode isEqualTo "decrypt")) then
             
             if (_msgLength <= count _key) then {                              
                 
-                //couldnt work out where encryptuion funcs are defined so wrote it here - move all code between this and the next comment into a function like AE3_armaos_fnc_encryption_caesar
-                _keyCodes = toArray(_key);
-                _msgCodes = toArray(_message);
-                
-                private _processedChar;
-                private _processedMessage=[];
-                
-                for "_i" from 0 to _msgLength-1 step 1 do{
-                    _processedChar = [(_msgCodes#_i),(_keyCodes#_i)] call BIS_fnc_bitwiseXOR;
-                    _processedChar = _processedChar+32;    
-                    _processedMessage pushBack _processedChar;
-                    systemChat str(_processedChar);
-                };
-
-                _processedMessage=toString(_processedMessage);
-                //end func
+                _processedMessage = [_key, _mode, _message] call AE3_armaos_fnc_encryption_OTP;
 
                 [_computer, _processedMessage] call AE3_armaos_fnc_shell_stdout;
             }else{
                 [_computer, localize "STR_AE3_ArmaOS_Exception_OTPNeedsKeyLongerThanPlainText"] call AE3_armaos_fnc_shell_stdout;
             };
-        };
-        case "SHA-2": {
-            //stub
         };
     };
 };

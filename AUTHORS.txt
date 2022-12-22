@@ -12,3 +12,4 @@ Wasserstoff
 # CONTRIBUTORS
 Bilibagga (Russian translation)
 PowerBOXx (Simplified Chinese Translation)
+Wild Tangent (One-Time-Pad encryption)
